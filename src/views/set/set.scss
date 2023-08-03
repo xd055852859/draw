@@ -1,0 +1,69 @@
+.set {
+  width: 80px;
+  height: 100%;
+  padding:10px 5px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  @include scroll();
+  > div:not(.ant-divider) {
+    width: 100%;
+    height: 60px;
+    align-content: center;
+    cursor: pointer;
+    @include flex(center, center, wrap);
+    > img {
+      width: 25px;
+      height: 25px;
+    }
+    div:nth-child(2) {
+      width: 100%;
+      height: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 5px;
+    }
+  }
+  .ant-divider-horizontal {
+    margin: 10px 0px;
+  }
+}
+.set-mask {
+  width: 85px;
+  height: 100vh;
+  position: fixed;
+  z-index: 20;
+  top:0px;
+  left: 81px;
+  z-index: 10;
+  background: transparent;
+  .set-dialog {
+    width: 85px;
+    background: #ffffff;
+    border-radius: 3px;
+    box-shadow: 0px 2px 9px 0px rgba(178, 178, 178, 0.5);
+    position: absolute;
+    left: 0px;
+    z-index: 10;
+    @include scroll();
+    .set-dialog-item {
+      width: 100%;
+      height: 40px;
+      cursor: pointer;
+      @include scroll();
+      @include flex(center, center, null);
+      img {
+        width: 25px;
+        height: 25px;
+      }
+    }
+    &::-webkit-scrollbar {
+      width: 2px;
+      height: 2px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #1677ff;
+    }
+    
+  }
+}

@@ -1,0 +1,220 @@
+.home {
+  width: 100vw;
+  height: 100vh;
+  @include scroll();
+  .home-header {
+    width: 100%;
+    height: 112px;
+    background: rgba(0, 0, 0, 0.16);
+    padding: 0px 15px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 10;
+    @include flex(space-between, center, null);
+    .left {
+      img {
+        width: 178px;
+        height: 50px;
+      }
+    }
+    .right {
+      @include flex(flex-start, center, null);
+      > div {
+        height: 37px;
+        font-size: 26px;
+        text-align: center;
+        color: #ffffff;
+        line-height: 37px;
+        margin-right: 15px;
+      }
+    }
+  }
+  .home-bg {
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100% 100%;
+    position: relative;
+    z-index: 1;
+    color: #ffffff;
+  }
+  .home-item {
+    width: 100vw;
+    height: 618px;
+    background-color: #fff;
+    @include flex(center, center, wrap);
+    .home-item-left {
+    }
+    .home-item-right {
+      width: 339px;
+      position: relative;
+      z-index: 1;
+      .home-item-logo {
+        position: absolute;
+        z-index: -1;
+        top: -40px;
+        left: -40px;
+
+        img {
+          width: 147px;
+          height: 136px;
+        }
+      }
+      .home-item-title {
+        height: 45px;
+        font-size: 32px;
+        font-weight: 500;
+        line-height: 45px;
+        margin-bottom: 20px;
+      }
+      .home-item-subtitle {
+        width: 100%;
+        font-size: 16px;
+        line-height: 26px;
+      }
+    }
+  }
+
+  .home-item-device {
+    width: 100vw;
+    height: 50px;
+    margin: 135px 0px 69px 0px;
+    @include flex(center, center, null);
+    img {
+      width: 40px;
+      height: 48px;
+      &:nth-child(1) {
+        margin-right: 35px;
+      }
+      &:nth-child(1) {
+        margin-left: 35px;
+      }
+    }
+  }
+
+  .home-footer {
+    width: 100vw;
+    height: 155px;
+    background: #f4f4f4;
+    align-content: center;
+    @include flex(center, center, wrap);
+    div {
+      width: 100%;
+      height: 28px;
+      font-size: 14px;
+      text-align: center;
+      line-height: 28px;
+    }
+  }
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+}
+.home-phone {
+  .home-header {
+    height: 286px;
+    padding: 0px 90px;
+    .left {
+      img {
+        width: 456px;
+        height: 129px;
+      }
+    }
+  }
+  .home-bg {
+    height: 2765px;
+    @include flex(center, center, null);
+    .home-bg-box {
+      width: 1124px;
+      height: 900px;
+      @include flex(center, center, wrap);
+      .home-bg-logo {
+        width: 100%;
+        height: 184px;
+        @include flex(center, center, null);
+        img {
+          width: 658px;
+          height: 184px;
+        }
+      }
+      .home-bg-title {
+        width: 623px;
+        height: 80px;
+        font-size: 71px;
+        text-align: center;
+        line-height: 80px;
+        letter-spacing: 8.85px;
+        margin: 56px 0px 90px 0px;
+        text-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.5);
+      }
+      .home-bg-subtitle {
+        width: 1124px;
+        height: 399px;
+        font-size: 51px;
+        line-height: 85px;
+        text-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.5);
+      }
+    }
+  }
+  .home-item {
+    width: 100%;
+    height: 2000px;
+    .home-item-left {
+      width: 100%;
+      @include flex(center, center, null);
+    }
+    .home-item-right {
+      width: 1205px;
+      .home-item-logo {
+        top: -80px;
+        left: -80px;
+
+        img {
+          width: 375px;
+          height: 345px;
+        }
+      }
+      .home-item-title {
+        width: 100%;
+        height: 115px;
+        font-size: 82px;
+        font-weight: 500;
+        line-height: 115px;
+        margin-bottom:35px;
+      }
+      .home-item-subtitle {
+        width: 100%;
+        height: 486px;
+        font-size: 61px;
+        line-height: 97px;
+      }
+    }
+  }
+  .home-item-device {
+    height: 125px;
+    margin: 112px 0px 176px 0px;
+    img {
+      width: 103px;
+      height: 123px;
+      &:nth-child(1) {
+        margin-right: 89px;
+      }
+      &:nth-child(1) {
+        margin-left: 89px;
+      }
+    }
+  }
+
+  .home-footer {
+    height: 400px;
+    div {
+      height: 80px;
+      font-size: 36px;
+      line-height: 65px;
+    }
+  }
+}

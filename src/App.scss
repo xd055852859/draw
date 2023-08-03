@@ -1,0 +1,19 @@
+#app {
+  width: 100vw;
+  height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+  font-family: PingFang SC, PingFang SC-Semibold;
+  color: #333;
+  textarea {
+    background-color: #fff;
+    color: #333;
+  }
+}
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 2px;
+}
+*::-webkit-scrollbar-thumb {
+  // background: #86b93f;
+  border-radius: 100px;
+}

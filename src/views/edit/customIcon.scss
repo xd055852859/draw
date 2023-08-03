@@ -1,0 +1,30 @@
+.tag-box {
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  @include flex(flex-start, center, wrap);
+  .tag-item {
+    width: 52px;
+    height: 25px;
+    margin-bottom: 5px;
+    cursor: pointer;
+    @include flex(center, center, null);
+  }
+}
+.custom-icon-box {
+  width: 100%;
+  height: calc(100% - 110px);
+  align-content: flex-start;
+  @include scroll();
+  @include flex(flex-start, center, wrap);
+  .custom-icon-item {
+    width: 45px;
+    height: 45px;
+    cursor: move;
+    @include flex(center, center, wrap);
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}

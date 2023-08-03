@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>恢复</title>
+    <g id="StoryMap-首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="绘图菜单" transform="translate(-186.000000, -127.000000)" fill="#555555">
+            <g id="编组备份" transform="translate(165.000000, 75.000000)">
+                <g id="恢复-2" transform="translate(21.000000, 52.000000)">
+                    <path d="M2,8.25 L7.83333333,13.4983333 L7.83333333,9.99833333 C11.3466667,9.99833333 14.8333333,11.94 16,14.8066667 L16,14.665 C16,10.1546745 12.3436588,6.49833333 7.83333333,6.49833333 L7.83333333,3 L2,8.25 Z" id="恢复" transform="translate(9.000000, 8.903333) scale(-1, 1) translate(-9.000000, -8.903333) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

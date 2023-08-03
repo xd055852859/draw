@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>png</title>
+    <g id="StoryMap-首页" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="绘图菜单" transform="translate(-36.000000, -247.000000)">
+            <g id="编组" transform="translate(22.000000, 75.000000)">
+                <g id="png-2" transform="translate(14.000000, 172.000000)">
+                    <g id="png" transform="translate(1.000000, 0.999905)">
+                        <path d="M2.44443653,16.0000953 C1.09542601,15.9977563 0.00244607908,14.9525939 0,13.6626022 L0,2.33763839 C0.00244607908,1.04764669 1.09542601,0.00248431461 2.44443653,0 L11.408852,0 C11.8192509,-0.00307671713 12.2141621,0.149811521 12.5066262,0.425143991 L15.7999489,3.57438475 C15.9299563,3.69621588 16.0022141,3.86358312 16.0000967,4.03763338 L16.0000967,13.6626022 C15.9975022,14.9525939 14.9045223,15.9977563 13.5555117,16.0000953 L2.44443653,16.0000953 Z" id="路径" stroke="#333333" stroke-width="0.88" fill-rule="nonzero"></path>
+                        <text font-family="PingFangSC-Regular, PingFang SC" font-size="8" font-weight="normal" fill="#333333">
+                            <tspan x="1" y="10.0000953">png</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

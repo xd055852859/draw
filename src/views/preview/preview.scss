@@ -1,0 +1,13 @@
+.preview {
+  width: 100vw;
+  height: 100vh;
+  .preview-controlls {
+    width: 160px;
+    height: 60px;
+    @include flex(space-between, center, null);
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    z-index: 2;
+  }
+}
