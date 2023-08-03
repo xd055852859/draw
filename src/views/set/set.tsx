@@ -13,6 +13,7 @@ import dotlineSvg from "@/assets/svg/dotline.svg";
 
 import fontSizeSvg from "@/assets/icon/fontSize.svg";
 import boldSvg from "@/assets/icon/bold.svg";
+import leftArrowSvg from "@/assets/icon/leftArrow.svg";
 import boldChooseSvg from "@/assets/icon/boldChoose.svg";
 import italicSvg from "@/assets/icon/italic.svg";
 import italicChooseSvg from "@/assets/icon/italicChoose.svg";
@@ -33,6 +34,7 @@ import bottomWSvg from "@/assets/icon/align-bottom-w.svg";
 import justifyWSvg from "@/assets/icon/align-justify-w.svg";
 import leftWSvg from "@/assets/icon/align-left-w.svg";
 import rightWSvg from "@/assets/icon/align-right-w.svg";
+import { changeActiveState, changeDragState, changeSaveState } from "@/redux/actions/commonActions";
 const Set: React.FC = (props) => {
   const {} = props;
   const { activeState } = useTypedSelector((state) => state.common);
@@ -85,6 +87,7 @@ const Set: React.FC = (props) => {
     if (drawCanvas && propsState) {
       drawCanvas.updateProps();
       setPropsState(false);
+      dispatch(changeSaveState(true));
     }
   }, [propsState]);
   useEffect(() => {
@@ -136,7 +139,7 @@ const Set: React.FC = (props) => {
           ));
         break;
       case "lineWidth":
-        setsShowState({ top: "260px", height: "400px" });
+        setsShowState({ top: "330px", height: "400px" });
         newFragment = Array(12)
           .fill(0)
           .map((item, index) => (
@@ -179,7 +182,7 @@ const Set: React.FC = (props) => {
         ));
         break;
       case "textBaseline":
-        setsShowState({ top: "530px", height: "120px" });
+        setsShowState({ top: "560px", height: "120px" });
         newFragment = textBaselineArray.map((item, index) => (
           <div
             className="set-dialog-item"
@@ -205,7 +208,7 @@ const Set: React.FC = (props) => {
         ));
         break;
       case "name":
-        setsShowState({ top: "540px", height: "160px" });
+        setsShowState({ top: "570px", height: "160px" });
         newFragment = Object.keys(LineType).map((item, index) => (
           <div
             onClick={() => changeProps("name", item)}
@@ -229,8 +232,8 @@ const Set: React.FC = (props) => {
       case "dash":
         setsShowState(
           activeState === 1
-            ? { top: "570px", height: "160px" }
-            : { top: "470px", height: "160px" }
+            ? { top: "620px", height: "160px" }
+            : { top: "520px", height: "160px" }
         );
         newFragment = dashArray.map((item, index) => (
           <div
@@ -251,8 +254,8 @@ const Set: React.FC = (props) => {
       case "to":
         setsShowState(
           propsType === "from"
-            ? { top: "250px", height: "400px" }
-            : { top: "300px", height: "400px" }
+            ? { top: "300px", height: "400px" }
+            : { top: "350px", height: "400px" }
         );
         newFragment = Object.keys(ArrowType).map((item, index) => (
           <div
@@ -305,7 +308,10 @@ const Set: React.FC = (props) => {
     setPropsType(type);
     setShowVisible(true);
   };
-
+  const backBase = () => {
+    dispatch(changeActiveState(0));
+    dispatch(changeDragState(true));
+  };
   // lineWidth = 1,
   // strokeStyle = "#111111",
   // dash = 0,
@@ -325,6 +331,10 @@ const Set: React.FC = (props) => {
   return (
     <>
       <div className="set">
+        <div className="set-back" onClick={backBase}>
+          <img src={leftArrowSvg} alt="" />
+        </div>
+        <Divider dashed />
         <div
           onMouseEnter={() => chooseProps("fontSize")}
           onClick={() => chooseProps("fontSize")}
@@ -386,8 +396,16 @@ const Set: React.FC = (props) => {
                 typeof value === "string" ? value : value.toHexString()
               );
             }}
-          />
-          <div>文本</div>
+          >
+            <div className="set-color">
+              <img src={fontColorSvg} alt="" />
+              <div>文本</div>
+              <div
+                className="set-color-div"
+                style={{ backgroundColor: penData.fontColor }}
+              ></div>
+            </div>
+          </ColorPicker>
         </div>
         {/*@ts-ignore*/}
         {!selectNode?.pen?.image ? (
@@ -402,8 +420,16 @@ const Set: React.FC = (props) => {
                     typeof value === "string" ? value : value.toHexString()
                   );
                 }}
-              />
-              <div>{activeState === 2 ? "连线" : "边框"}</div>
+              >
+                <div className="set-color">
+                  <img src={lineColorSvg} alt="" />
+                  <div>{activeState === 2 ? "连线" : "边框"}</div>
+                  <div
+                    className="set-color-div"
+                    style={{ backgroundColor: penData.strokeStyle }}
+                  ></div>
+                </div>
+              </ColorPicker>
             </div>
             {activeState === 1 ? (
               <>
@@ -416,8 +442,19 @@ const Set: React.FC = (props) => {
                         typeof value === "string" ? value : value.toHexString()
                       );
                     }}
-                  />
-                  <div>背景</div>
+                  >
+                    <div className="set-color">
+                      <img src={fillColorSvg} alt="" />
+                      <div>背景</div>
+                      <div
+                        className="set-color-div"
+                        style={{
+                          backgroundColor: penData.fillStyle,
+                          top: "28px",
+                        }}
+                      ></div>
+                    </div>
+                  </ColorPicker>
                 </div>
 
                 <Divider dashed />

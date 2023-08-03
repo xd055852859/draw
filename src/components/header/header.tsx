@@ -1,5 +1,6 @@
 import {
   changeEditState,
+  changeSaveState,
   setContent,
   setTitle,
 } from "@/redux/actions/commonActions";
@@ -31,28 +32,19 @@ import { useMount } from "@/hooks/common";
 
 const Header: React.FC = (props) => {
   const {} = props;
-  const { token, apiObj, title, editState } = useTypedSelector(
+  const { token, apiObj, title, editState, saveState } = useTypedSelector(
     (state) => state.common
   );
   const { drawCanvas } = useTypedSelector((state) => state.draw);
 
   const dispatch = useDispatch();
   const [] = useState<number[]>([]);
-  useMount(() => {
-    if (editState) {
-      // window.onbeforeunload = function (e) {
-      //   //@ts-ignore
-      //   e = e | window.event;
-      //   if (e) {
-      //     e.returnValue = "请确定修改内容是否保存";
-      //   }
-      //   return false;
-      // };
-      // setInterval(()=>{
-      //   saveData();
-      // },60000)
+  useEffect(() => {
+    if (saveState) {
+      saveData("autoSave");
+      dispatch(changeSaveState(false));
     }
-  });
+  }, [saveState]);
   const onHandleImportJson = () => {
     if (drawCanvas) {
       const input = document.createElement("input");

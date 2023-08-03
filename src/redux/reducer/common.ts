@@ -10,6 +10,7 @@ export interface CommonType {
   activeState: number;
   usedArray: any;
   dragState: boolean;
+  saveState: boolean;
 }
 const defaultState: CommonType = {
   token: null,
@@ -22,6 +23,7 @@ const defaultState: CommonType = {
   activeState: -1,
   usedArray: [],
   dragState: false,
+  saveState: false,
 };
 export const common = (state = defaultState, action: any) => {
   switch (action.type) {
@@ -50,11 +52,6 @@ export const common = (state = defaultState, action: any) => {
       return {
         ...state,
         headerVisible: action.headerVisible,
-      };
-    case commonActionTypes.SET_DRAG_STATE:
-      return {
-        ...state,
-        dragState: action.dragState,
       };
 
     case commonActionTypes.CHANGE_EDIT_STATE:
@@ -104,6 +101,16 @@ export const common = (state = defaultState, action: any) => {
       return {
         ...state,
         usedArray: arr,
+      };
+    case commonActionTypes.CHANGE_DRAG_STATE:
+      return {
+        ...state,
+        dragState: action.dragState,
+      };
+    case commonActionTypes.CHANGE_SAVE_STATE:
+      return {
+        ...state,
+        saveState: action.saveState,
       };
     default:
       return state;

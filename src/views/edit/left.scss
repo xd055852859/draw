@@ -23,7 +23,7 @@
       flex-shrink: 0;
       padding: 10px 5px;
       box-sizing: border-box;
-      > div:not(.ant-divider,.left-used) {
+      > div:not(.ant-divider, .left-used) {
         width: 100%;
         height: 80px;
         align-content: center;
@@ -44,7 +44,7 @@
       }
       .ant-divider-horizontal {
         margin: 10px 0px;
-        border-color:#c9c0c0 ;
+        border-color: #c9c0c0;
       }
       .left-used {
         width: 100%;
@@ -53,13 +53,20 @@
         @include flex(center, flex-start, wrap);
         @include scroll();
         .left-used-item {
-          width: 40px;
+          width: 100%;
           height: 50px;
+          flex-shrink: 0;
           cursor: pointer;
           @include flex(center, center, wrap);
           img {
             width: 30px;
             height: 30px;
+          }
+          &:hover {
+            background-color: #1677ff;
+            i {
+              color: #fff !important;
+            }
           }
         }
       }
@@ -79,7 +86,11 @@
   z-index: 10;
   @include scroll();
   .left-dialog-base {
+    width: 100%;
     height: 100%;
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;;
     @include scroll();
     .ant-collapse {
       //   height: 100%;
@@ -93,8 +104,32 @@
           height: 40px;
           cursor: move;
           @include flex(center, center, wrap);
+          &:hover {
+            background-color: #1677ff;
+            i {
+              color: #fff !important;
+            }
+          }
         }
       }
+    }
+    .left-dialog-pin {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      position: absolute;
+      right: 0px;
+      top: 5px;
+      z-index: 2;
+      @include flex(center, center, null);
+      img {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    &::-webkit-scrollbar {
+      width: 0px;
+      height: 0px;
     }
   }
 }

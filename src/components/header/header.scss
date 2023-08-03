@@ -17,6 +17,7 @@
     .header-left-icon-box {
       width: 55px;
       height: 100%;
+      cursor: pointer;
       align-content: center;
       @include flex(center, center, wrap);
       .header-left-icon {

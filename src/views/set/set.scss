@@ -1,11 +1,22 @@
 .set {
   width: 80px;
   height: 100%;
-  padding:10px 5px;
+  padding: 10px 5px;
   box-sizing: border-box;
   flex-shrink: 0;
   @include scroll();
-  > div:not(.ant-divider) {
+  .set-back {
+    width: 100%;
+    height: 25px;
+    cursor: pointer;
+    @include flex(center, center, null);
+    > img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  > div:not(.ant-divider, .set-back),
+  .set-color {
     width: 100%;
     height: 60px;
     align-content: center;
@@ -24,6 +35,18 @@
       margin-top: 5px;
     }
   }
+  .set-color {
+    position: relative;
+    z-index: 1;
+    .set-color-div {
+      width: 20px;
+      height: 5px;
+      position: absolute;
+      z-index: 2;
+      left: 23px;
+      top: 25.5px;
+    }
+  }
   .ant-divider-horizontal {
     margin: 10px 0px;
   }
@@ -33,7 +56,7 @@
   height: 100vh;
   position: fixed;
   z-index: 20;
-  top:0px;
+  top: 0px;
   left: 81px;
   z-index: 10;
   background: transparent;
@@ -64,6 +87,5 @@
     &::-webkit-scrollbar-thumb {
       background: #1677ff;
     }
-    
   }
 }

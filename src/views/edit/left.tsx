@@ -21,6 +21,9 @@ import baseSvg from "@/assets/icon/base.svg";
 import customSvg from "@/assets/icon/custom.svg";
 import baseWSvg from "@/assets/icon/baseW.svg";
 import customWSvg from "@/assets/icon/customW.svg";
+import rightPinSvg from "@/assets/icon/rightPin.svg";
+import pinSvg from "@/assets/icon/pin.svg";
+
 import { setSelectNode } from "@/redux/actions/drawActions";
 import { spaceData } from "@/redux/reducer/draw";
 const Left: React.FC = (props) => {
@@ -30,7 +33,7 @@ const Left: React.FC = (props) => {
     (state) => state.common
   );
   const [chooseIndex, setChooseIndex] = useState<number>(0);
-
+  const [pinState, setPinState] = useState<boolean>(false);
   useEffect(() => {
     if (!dragState) {
       if (
@@ -241,11 +244,13 @@ const Left: React.FC = (props) => {
           <Set />
         </div>
       </div>
-      {chooseIndex ? (
+      {(chooseIndex || pinState) && activeState !== 1 ? (
         <div
           className="left-dialog"
           onMouseLeave={() => {
-            setChooseIndex(0);
+            if (!pinState) {
+              setChooseIndex(0);
+            }
           }}
         >
           <div className="left-dialog-base">
@@ -257,6 +262,14 @@ const Left: React.FC = (props) => {
             ) : (
               <CustomIcon onDrag={onDrag} />
             )}
+            <div
+              className="left-dialog-pin"
+              onClick={() => {
+                setPinState(!pinState);
+              }}
+            >
+              <img src={pinState ? pinSvg : rightPinSvg} alt="" />
+            </div>
           </div>
         </div>
       ) : null}

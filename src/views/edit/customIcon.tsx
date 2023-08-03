@@ -59,7 +59,6 @@ const CustomIcon: React.FC<LeftProps> = (props) => {
     }
   }, [iconList]);
   const getIconData = async () => {
-    console.log(page);
     const iconRes = (await api.request.get(
       "https://icondata.qingtime.cn/icon",
       { tagKey: tagKey, page: page, limit: 200 }

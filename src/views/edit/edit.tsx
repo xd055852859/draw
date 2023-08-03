@@ -14,7 +14,10 @@ import EventEmitter from "@/components/common/event";
 import Left from "./left";
 import { selectType, spaceData } from "@/redux/reducer/draw";
 import { message } from "antd";
-import { setDragState } from "@/redux/actions/commonActions";
+import {
+  changeDragState,
+  changeSaveState,
+} from "@/redux/actions/commonActions";
 
 const Edit: React.FC = (props) => {
   const {} = props;
@@ -26,6 +29,7 @@ const Edit: React.FC = (props) => {
   // const dispatch = useDispatch();
   // const location = useLocation();
   const selectedRef = useRef<selectType>();
+  const pageRef = useRef<any>();
   const [shortcutVisible, setShortcutVisible] = useState(false);
 
   useEffect(() => {
@@ -35,7 +39,7 @@ const Edit: React.FC = (props) => {
       console.log(drawCanvas);
       dispatch(setSelectNode(spaceData));
       drawCanvas?.render();
-      dispatch(setDragState(false));
+      dispatch(changeDragState(false));
     }
   }, [dragState]);
 
@@ -48,7 +52,12 @@ const Edit: React.FC = (props) => {
       }
     }, 200);
   };
-
+  const clearActive = (e) => {
+    if (e.keyCode === 27) {
+      //esc
+      dispatch(changeDragState(true));
+    }
+  };
   const onMessage = (event: any, data: any) => {
     /*  const setLineAnimation = (line: Line, switchStart: boolean = true) => {
         line.animateStart = switchStart ? new Date().getTime() : 0;
@@ -98,7 +107,8 @@ const Edit: React.FC = (props) => {
         //   );
         // dispatch(setSelectNode(spaceData));
         // }
-        dispatch(setDragState(true));
+        dispatch(changeDragState(true));
+        dispatch(changeSaveState(true));
         break;
       case "line": // 连线
       case "addLine":
@@ -124,7 +134,11 @@ const Edit: React.FC = (props) => {
           }
         }
         // dispatch(editArticleSaveStatus(-1));
-        if (selectedRef.current?.pen?.id !== data.id && event !== "addLine") {
+        if (event === "addLine") {
+          dispatch(setSelectNode(spaceData));
+          dispatch(changeDragState(true));
+          dispatch(changeSaveState(true));
+        } else if (selectedRef.current?.pen?.id !== data.id) {
           dispatch(
             setSelectNode({
               type: 1,
@@ -137,7 +151,14 @@ const Edit: React.FC = (props) => {
         }
         break;
       case "space": // 空白处
-        dispatch(setSelectNode(spaceData));
+        console.log(selectedRef.current);
+        if (
+          selectedRef.current?.pen?.id ||
+          (selectedRef.current?.nodes && selectedRef.current.nodes.length > 0)
+        ) {
+          dispatch(setSelectNode(spaceData));
+          dispatch(changeSaveState(true));
+        }
         /*  canvas.data.pens.forEach((pen) => {
             //@ts-ignore
             if (pen.type === 1) {
@@ -176,8 +197,11 @@ const Edit: React.FC = (props) => {
             }
           }
         });
+        dispatch(changeSaveState(true));
         break;
       case "delete":
+        dispatch(changeSaveState(true));
+        break;
       // data.TID;
       default:
         break;
@@ -211,10 +235,12 @@ const Edit: React.FC = (props) => {
     canvas.fitView(140);
     canvas.render();
     dispatch(setDrawCanvas(canvas));
-    EventEmitter.on("reload", reload);
+    pageRef.current.addEventListener("reload", reload);
+    pageRef.current.addEventListener("keydown", clearActive);
     return () => {
       canvas.destroy();
-      EventEmitter.remove("reload", reload);
+      pageRef.current.removeEventListener("reload", reload);
+      pageRef.current.removeEventListener("keydown", clearActive);
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -258,7 +284,7 @@ const Edit: React.FC = (props) => {
   return (
     <>
       {headerVisible ? <Header /> : null}
-      <div className="page">
+      <div className="page" ref={pageRef}>
         <Left />
 
         <div className="edit">
