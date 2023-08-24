@@ -3,6 +3,11 @@ import { Topology } from "@topology/core";
 import "./preview.scss";
 import { useTypedSelector } from "@/redux/reducer/RootState";
 import { is_mobile } from "@/services/util";
+import { register as registerFlow } from "@topology/flow-diagram"; // 流程图
+import { register as registerActivity } from "@topology/activity-diagram"; // 活动图
+import { register as registerClass } from "@topology/class-diagram"; // 类图
+import { register as registerSequence } from "@topology/sequence-diagram"; // 时序图
+import { register as registerMyself } from "@/components/customized-diagram";
 import { useMount } from "@/hooks/common";
 import { Button, Tooltip } from "antd";
 import {
@@ -21,6 +26,7 @@ const Preview: React.FC = (props) => {
 
   useMount(() => {
     setPreviewCanvas(new Topology("preview"));
+    canvasRegister();
     return () => {
       if (previewCanvas) {
         previewCanvas.destroy();
@@ -66,6 +72,18 @@ const Preview: React.FC = (props) => {
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.preventDefault();
+  };
+  const canvasRegister = () => {
+    registerFlow();
+    // activity
+    registerActivity();
+    // class
+    registerClass();
+    // sequence
+    registerSequence();
+    // 注册自定义组件
+    registerMyself();
+    // registerNode('myShape', myShapeData, myShapeDataAnchors, myShapeDataIconRect, myShapeDataTextRect);
   };
   return (
     <div className="preview">

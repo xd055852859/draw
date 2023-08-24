@@ -7,6 +7,7 @@ import api from "@/services/api";
 import { ResultProps } from "@/interface/Common";
 import { Tag } from "antd";
 import { setDrawCanvas } from "@/redux/actions/drawActions";
+import { changeSaveState } from "@/redux/actions/commonActions";
 
 interface LeftProps {
   onDrag: (ev: any, item: any) => void;
@@ -22,21 +23,19 @@ const CustomIcon: React.FC<LeftProps> = (props) => {
   const [tagKey, setTagKey] = useState<string>("");
   const [total, setTotal] = useState<number>(0);
   const [chooseIndex, setChooseIndex] = useState<number>(0);
+  const [updateState, setUpdateState] = useState<boolean>(false);
   useMount(() => {
     // getIconData();
     getIconTree();
   });
   useEffect(() => {
-    if (
-      drawCanvas?.activeLayer.pens &&
-      drawCanvas?.activeLayer.pens.length > 0 &&
-      //@ts-ignore
-      drawCanvas?.activeLayer.pens[0]?.image
-    ) {
+    if (drawCanvas && updateState) {
       drawCanvas.updateProps();
+      setUpdateState(false);
+      dispatch(changeSaveState(true));
     }
     //@ts-ignore
-  }, [drawCanvas?.activeLayer.pens]);
+  }, [updateState, drawCanvas]);
 
   useEffect(() => {
     console.log(page);
@@ -109,7 +108,7 @@ const CustomIcon: React.FC<LeftProps> = (props) => {
     console.log(iconList.length < total);
 
     if (height + scrollTop >= scrollHeight && iconList.length < total) {
-      newPage++
+      newPage++;
       setPage(newPage);
     }
   };
@@ -124,6 +123,8 @@ const CustomIcon: React.FC<LeftProps> = (props) => {
       //@ts-ignore
       canvas.activeLayer.pens[0].image = url;
       dispatch(setDrawCanvas(canvas));
+      setUpdateState(true);
+      // canvas.updateProps();
     }
   };
   return (

@@ -10,13 +10,11 @@ import {
   timeDiagram,
   imgTool,
   IconList,
+  commonShape,
 } from "@/components/config/config";
 import CustomIcon from "./customIcon";
 import Set from "../set/set";
-import {
-  changeActiveState,
-  changeUsedArray,
-} from "@/redux/actions/commonActions";
+import { changeActiveState } from "@/redux/actions/commonActions";
 import baseSvg from "@/assets/icon/base.svg";
 import customSvg from "@/assets/icon/custom.svg";
 import baseWSvg from "@/assets/icon/baseW.svg";
@@ -26,14 +24,34 @@ import pinSvg from "@/assets/icon/pin.svg";
 
 import { setSelectNode } from "@/redux/actions/drawActions";
 import { spaceData } from "@/redux/reducer/draw";
-const Left: React.FC = (props) => {
+interface LeftProps {
+  onDrag: (ev: any, item: any) => void;
+}
+const Left: React.FC<LeftProps> = (props) => {
+  const { onDrag } = props;
   const dispatch = useDispatch();
   const { drawCanvas, selectNode } = useTypedSelector((state) => state.draw);
-  const { activeState, styleType, usedArray, dragState } = useTypedSelector(
+  const { activeState, usedArray, dragState } = useTypedSelector(
     (state) => state.common
   );
   const [chooseIndex, setChooseIndex] = useState<number>(0);
   const [pinState, setPinState] = useState<boolean>(false);
+  const [commonVisible, setCommonVisible] = useState<boolean>(false);
+  const commonImage = {
+    name: "logo",
+    key: "2199464824",
+    url: "https://cdn-icare.qingtime.cn/1646464474956.svg",
+    icon: "icon-image",
+    data: {
+      text: "",
+      rect: {
+        width: 100,
+        height: 100,
+      },
+      name: "image",
+      image: "https://cdn-icare.qingtime.cn/1646464474956.svg",
+    },
+  };
   useEffect(() => {
     if (!dragState) {
       if (
@@ -42,6 +60,12 @@ const Left: React.FC = (props) => {
       ) {
         setChooseIndex(0);
         dispatch(changeActiveState(drawCanvas?.activeLayer.pens[0].type + 1));
+        // //@ts-ignore
+        // if (drawCanvas?.activeLayer.pens[0]?.image) {
+        //   setCommonVisible(true);
+        // } else {
+        //   setCommonVisible(false);
+        // }
       } else {
         // setChooseIndex(0);
         if (activeState !== -1) {
@@ -50,23 +74,6 @@ const Left: React.FC = (props) => {
       }
     }
   }, [drawCanvas?.activeLayer.pens]);
-
-  const onDrag = (event: any, node: any) => {
-    let arr = [...usedArray];
-    node.data = {
-      ...node.data,
-      lineWidth: styleType?.lineWidth,
-      font: { color: styleType?.fontColor },
-      fillStyle: styleType?.bgColor,
-      strokeStyle: styleType?.borderColor,
-    };
-    if (node.data.type === 1) {
-      node.data.strokeStyle = styleType.lineColor;
-    }
-    dispatch(changeUsedArray(node));
-    event.dataTransfer.setData("Topology", JSON.stringify(node.data));
-  };
-
   const collapseItems: CollapseProps["items"] = [
     {
       key: "1",
@@ -183,13 +190,9 @@ const Left: React.FC = (props) => {
               onMouseEnter={() => {
                 setChooseIndex(1);
               }}
-              style={
-                chooseIndex === 1
-                  ? { backgroundColor: "#1677ff", color: "#fff" }
-                  : {}
-              }
+              style={chooseIndex === 1 ? { backgroundColor: "#f0f0f0" } : {}}
             >
-              <img src={chooseIndex === 1 ? baseWSvg : baseSvg} alt="" />
+              <img src={baseSvg} alt="" />
               <div>组件库</div>
             </div>
             <div
@@ -199,18 +202,40 @@ const Left: React.FC = (props) => {
               onMouseEnter={() => {
                 setChooseIndex(2);
               }}
-              style={
-                chooseIndex === 2
-                  ? { backgroundColor: "#1677ff", color: "#fff" }
-                  : {}
-              }
+              style={chooseIndex === 2 ? { backgroundColor: "#f0f0f0" } : {}}
             >
               <img
-                src={chooseIndex === 2 ? customWSvg : customSvg}
+                src={customSvg}
                 alt=""
-                style={{ width: "40px", height: "40px" }}
+                style={{ width: "35px", height: "35px" }}
               />
-              <div style={{ marginTop: "5px" }}>图标库</div>
+              <div style={{ marginTop: "0px" }}>图标库</div>
+            </div>
+            <Divider dashed />
+            <div className="left-common">
+              {commonShape.map((item, index) => {
+                return (
+                  <Tooltip title={item.name} key={"basicShape" + index}>
+                    <div
+                      className="left-used-item"
+                      draggable
+                      onDragStart={(ev) => onDrag(ev, item)}
+                    >
+                      <i
+                        className={"iconfont " + item.icon}
+                        style={{ fontSize: 30, color: "#333" }}
+                      ></i>
+                    </div>
+                  </Tooltip>
+                );
+              })}
+              <div
+                className="left-used-item"
+                draggable
+                onDragStart={(ev) => onDrag(ev, commonImage)}
+              >
+                <img src={commonImage.url} alt={"默认图标"} className="" />
+              </div>
             </div>
             <Divider dashed />
             <div className="left-used">
@@ -241,20 +266,24 @@ const Left: React.FC = (props) => {
               })}
             </div>
           </div>
-          <Set />
+          <Set setCommonVisible={setCommonVisible} />
         </div>
       </div>
-      {(chooseIndex || pinState) && activeState !== 1 ? (
+      {pinState ||
+      (chooseIndex && activeState !== 1) ||
+      (commonVisible && activeState === 1) ? (
+        // commonVisible && activeState === 1 ? "right-dialog" : "left-dialog"
         <div
-          className="left-dialog"
+          className={"left-dialog"}
           onMouseLeave={() => {
             if (!pinState) {
               setChooseIndex(0);
             }
+            setCommonVisible(false);
           }}
         >
           <div className="left-dialog-base">
-            {chooseIndex === 1 ? (
+            {chooseIndex === 1 && !commonVisible ? (
               <Collapse
                 items={collapseItems}
                 defaultActiveKey={["1", "2", "3", "4"]}

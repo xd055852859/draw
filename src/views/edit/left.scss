@@ -7,8 +7,7 @@
   top: 60px;
   left: 0px;
   z-index: 2;
-  overflow-x: auto;
-  overflow-y: hidden;
+  @include scroll();
   .left-box {
     width: 160px;
     height: 100%;
@@ -21,9 +20,9 @@
       width: 80px;
       height: 100%;
       flex-shrink: 0;
-      padding: 10px 5px;
+      padding: 10px 0px;
       box-sizing: border-box;
-      > div:not(.ant-divider, .left-used) {
+      > div:not(.ant-divider, .left-common, .left-used) {
         width: 100%;
         height: 80px;
         align-content: center;
@@ -36,22 +35,23 @@
         div:nth-child(2) {
           width: 100%;
           height: 20px;
-          font-size: 14px;
+          font-size: 12px;
           font-weight: 500;
           text-align: center;
-          margin-top: 10px;
+          margin-top: 5px;
         }
       }
       .ant-divider-horizontal {
         margin: 10px 0px;
         border-color: #c9c0c0;
       }
-      .left-used {
+
+      .left-used,
+      .left-common {
         width: 100%;
-        height: calc(100% - 180px);
         align-content: flex-start;
         @include flex(center, flex-start, wrap);
-        @include scroll();
+        // @include scroll();
         .left-used-item {
           width: 100%;
           height: 50px;
@@ -63,18 +63,19 @@
             height: 30px;
           }
           &:hover {
-            background-color: #1677ff;
-            i {
-              color: #fff !important;
-            }
+            background-color: #f0f0f0;
           }
         }
+      }
+      .left-common {
+        height: 400px;
       }
     }
   }
 }
 
-.left-dialog {
+.left-dialog,
+.right-dialog {
   width: 240px;
   height: calc(100vh - 67px);
   background: #ffffff;
@@ -82,7 +83,7 @@
   box-shadow: 0px 2px 9px 0px rgba(178, 178, 178, 0.5);
   position: fixed;
   top: 62px;
-  left: 81px;
+
   z-index: 10;
   @include scroll();
   .left-dialog-base {
@@ -90,7 +91,7 @@
     height: 100%;
     position: relative;
     z-index: 1;
-    box-sizing: border-box;;
+    box-sizing: border-box;
     @include scroll();
     .ant-collapse {
       //   height: 100%;
@@ -105,10 +106,10 @@
           cursor: move;
           @include flex(center, center, wrap);
           &:hover {
-            background-color: #1677ff;
-            i {
-              color: #fff !important;
-            }
+            background-color: #f0f0f0;
+            // i {
+            //   color: #fff !important;
+            // }
           }
         }
       }
@@ -132,6 +133,12 @@
       height: 0px;
     }
   }
+}
+.left-dialog {
+  left: 81px;
+}
+.right-dialog {
+  right: 0px;
 }
 @keyframes toRight {
   0% {

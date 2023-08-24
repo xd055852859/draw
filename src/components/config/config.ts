@@ -865,3 +865,126 @@ export const imgTool = [
   //   ],
   // },
 ];
+export const commonShape = [
+  {
+    name: "正方形",
+    icon: "icon-rect",
+    data: {
+      text: "正方形",
+      rect: {
+        width: 100,
+        height: 100,
+      },
+      paddingLeft: 10,
+      paddingRight: 10,
+      paddingTop: 10,
+      paddingBottom: 10,
+      name: "square",
+    },
+  },
+  {
+    name: "开始/结束",
+    icon: "icon-flow-start",
+    data: {
+      text: "开始",
+      rect: {
+        width: 120,
+        height: 40,
+      },
+      borderRadius: 0.5,
+      name: "rectangle",
+    },
+  },
+  {
+    name: "菱形",
+    icon: "icon-diamond",
+    data: {
+      text: "菱形",
+      rect: {
+        width: 100,
+        height: 100,
+      },
+      name: "diamond",
+    },
+  },
+  {
+    name: "数据",
+    icon: "icon-flow-data",
+    data: {
+      text: "数据",
+      rect: {
+        width: 120,
+        height: 50,
+      },
+      name: "flowData",
+    },
+  },
+  {
+    name: "圆",
+    icon: "icon-circle",
+    data: {
+      text: "圆",
+      rect: {
+        width: 100,
+        height: 100,
+      },
+      name: "circle",
+      // textMaxLine: 1,
+    },
+  },
+  {
+    name: "文字",
+    icon: "icon-text",
+    data: {
+      text: "时光绘图",
+      rect: {
+        width: 160,
+        height: 30,
+      },
+      name: "text",
+    },
+  },
+  {
+    name: "简单类",
+    icon: "icon-simple-class",
+    data: {
+      text: "Topolgoy",
+      rect: {
+        width: 270,
+        height: 200,
+      },
+      paddingTop: 40,
+      font: {
+        fontFamily: "Arial",
+        color: "#222",
+        fontWeight: "bold",
+      },
+      fillStyle: "#ffffba",
+      strokeStyle: "#7e1212",
+      name: "simpleClass",
+      children: [
+        {
+          text: "- name: string\n+ setName(name: string): void",
+          name: "text",
+          paddingLeft: 10,
+          paddingRight: 10,
+          paddingTop: 10,
+          paddingBottom: 10,
+          rectInParent: {
+            x: 0,
+            y: 0,
+            width: "100%",
+            height: "100%",
+            rotate: 0,
+          },
+          font: {
+            fontFamily: "Arial",
+            color: "#222",
+            textAlign: "left",
+            textBaseline: "top",
+          },
+        },
+      ],
+    },
+  },
+];

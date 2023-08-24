@@ -34,10 +34,20 @@ import bottomWSvg from "@/assets/icon/align-bottom-w.svg";
 import justifyWSvg from "@/assets/icon/align-justify-w.svg";
 import leftWSvg from "@/assets/icon/align-left-w.svg";
 import rightWSvg from "@/assets/icon/align-right-w.svg";
-import { changeActiveState, changeDragState, changeSaveState } from "@/redux/actions/commonActions";
-const Set: React.FC = (props) => {
-  const {} = props;
-  const { activeState } = useTypedSelector((state) => state.common);
+import customSvg from "@/assets/icon/custom.svg";
+import {
+  changeActiveState,
+  changeDragState,
+  changeSaveState,
+} from "@/redux/actions/commonActions";
+interface SetProps {
+  setCommonVisible: (visible: boolean) => void;
+}
+const Set: React.FC<SetProps> = (props) => {
+  const { setCommonVisible } = props;
+  const { activeState, styleObject } = useTypedSelector(
+    (state) => state.common
+  );
   const { drawCanvas, selectNode } = useTypedSelector((state) => state.draw);
   const dispatch = useDispatch();
   const [propsState, setPropsState] = useState<boolean>(false);
@@ -287,6 +297,7 @@ const Set: React.FC = (props) => {
     // });
 
     let canvas = drawCanvas;
+    let newObject = { ...styleObject };
     if (canvas?.activeLayer) {
       if (!canvas.activeLayer.pens.length) {
         return;
@@ -294,6 +305,11 @@ const Set: React.FC = (props) => {
       canvas.activeLayer.pens.forEach((item, index) => {
         item[key] = value;
       });
+      if (key === "name") {
+        canvas.data.lineName = value;
+        localStorage.setItem("lineName", value);
+      }
+      newObject[key] = value;
       dispatch(
         setSelectNode({
           ...selectNode,
@@ -335,6 +351,24 @@ const Set: React.FC = (props) => {
           <img src={leftArrowSvg} alt="" />
         </div>
         <Divider dashed />
+        {/*@ts-ignore*/}
+        {selectNode?.pen?.image ? (
+          <div
+            onClick={() => {
+              setCommonVisible(true);
+            }}
+            onMouseEnter={() => {
+              setCommonVisible(true);
+            }}
+          >
+            <img
+              src={customSvg}
+              alt=""
+              style={{ width: "35px", height: "35px" }}
+            />
+            <div style={{ marginTop: "0px" }}>图标库</div>
+          </div>
+        ) : null}
         <div
           onMouseEnter={() => chooseProps("fontSize")}
           onClick={() => chooseProps("fontSize")}
@@ -344,12 +378,6 @@ const Set: React.FC = (props) => {
         </div>
         <div
           onClick={() => {
-            changeProps(
-              "fontWeight",
-              penData.fontWeight === "normal" ? "bold" : "normal"
-            );
-          }}
-          onMouseEnter={() => {
             changeProps(
               "fontWeight",
               penData.fontWeight === "normal" ? "bold" : "normal"
@@ -365,12 +393,6 @@ const Set: React.FC = (props) => {
         </div>
         <div
           onClick={() => {
-            changeProps(
-              "fontStyle",
-              penData.fontStyle === "normal" ? "italic" : "normal"
-            );
-          }}
-          onMouseEnter={() => {
             changeProps(
               "fontStyle",
               penData.fontStyle === "normal" ? "italic" : "normal"

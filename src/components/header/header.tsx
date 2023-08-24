@@ -319,9 +319,10 @@ const Header: React.FC = (props) => {
         <div className="header-right">
           {editState ? (
             <div>
-              <Button type="primary" onClick={() => saveData()}>
+              {/* <Button type="primary" onClick={() => saveData()}>
                 保存
-              </Button>
+              </Button> */}
+              {saveState ? "保存中" : "已保存"}
             </div>
           ) : (
             <div>

@@ -7,6 +7,7 @@ import { register as registerActivity } from "@topology/activity-diagram"; // �
 import { register as registerClass } from "@topology/class-diagram"; // 类图
 import { register as registerSequence } from "@topology/sequence-diagram"; // 时序图
 import { register as registerMyself } from "@/components/customized-diagram";
+import { changeUsedArray } from "@/redux/actions/commonActions";
 import { useMount } from "@/hooks/common";
 import { Options, Topology } from "@topology/core";
 import Header from "@/components/header/header";
@@ -18,14 +19,21 @@ import {
   changeDragState,
   changeSaveState,
 } from "@/redux/actions/commonActions";
+const initialState = {
+  mouseX: 0,
+  mouseY: 0,
+};
 
-const Edit: React.FC = (props) => {
-  const {} = props;
-  const { content, headerVisible, styleType, editState, dragState } =
+const Edit: React.FC= (props) => {
+  const { content, headerVisible, editState, styleObject, dragState } =
     useTypedSelector((state) => state.common);
   const { drawCanvas, selectNode } = useTypedSelector((state) => state.draw);
   const dispatch = useDispatch();
-  const [] = useState<number[]>([]);
+  const [mousestate, setMouseState] = useState<{
+    mouseX: number;
+    mouseY: number;
+  }>(initialState);
+  const [menuVisible, setMenuVisible] = useState<boolean>(false);
   // const dispatch = useDispatch();
   // const location = useLocation();
   const selectedRef = useRef<selectType>();
@@ -159,6 +167,8 @@ const Edit: React.FC = (props) => {
           dispatch(setSelectNode(spaceData));
           dispatch(changeSaveState(true));
         }
+        setMenuVisible(false);
+        setMouseState({ mouseX: 0, mouseY: 0 });
         /*  canvas.data.pens.forEach((pen) => {
             //@ts-ignore
             if (pen.type === 1) {
@@ -232,6 +242,10 @@ const Edit: React.FC = (props) => {
     canvas.data.grid = true;
     canvas.data.gridColor = "#f6f6f6";
     canvas.data.gridSize = 15;
+
+    canvas.data.lineName = localStorage.getItem("lineName")
+      ? (localStorage.getItem("lineName") as string)
+      : "curve";
     canvas.fitView(140);
     canvas.render();
     dispatch(setDrawCanvas(canvas));
@@ -280,14 +294,50 @@ const Edit: React.FC = (props) => {
     registerMyself();
     // registerNode('myShape', myShapeData, myShapeDataAnchors, myShapeDataIconRect, myShapeDataTextRect);
   };
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    if (!selectNode.pen) return;
+    console.log(selectNode.pen);
+    setMouseState({ mouseX: event.clientX - 2, mouseY: event.clientY - 4 });
+    setMenuVisible(true);
+  };
+  const handleLayer = (type) => {
+    if (drawCanvas?.activeLayer?.pens && drawCanvas.activeLayer.pens[0]) {
+      switch (type) {
+        case "top":
+          drawCanvas.top(drawCanvas.activeLayer.pens[0]);
+          break;
+        case "bottom":
+          drawCanvas.bottom(drawCanvas.activeLayer.pens[0]);
+          break;
+        case "up":
+          drawCanvas.up(drawCanvas.activeLayer.pens[0]);
+          break;
+        case "down":
+          drawCanvas.down(drawCanvas.activeLayer.pens[0]);
+          break;
+      }
+      setMenuVisible(false);
+    }
+  };
+  const onDrag = (event: any, node: any) => {
+    node.data = {
+      ...node.data,
+    };
+    if (node.data.type === 1) {
+      node.data.name = styleObject.name;
+    }
+    dispatch(changeUsedArray(node));
+    event.dataTransfer.setData("Topology", JSON.stringify(node.data));
+  };
 
   return (
     <>
       {headerVisible ? <Header /> : null}
       <div className="page" ref={pageRef}>
-        <Left />
+        <Left onDrag={onDrag}/>
 
-        <div className="edit">
+        <div className="edit" onContextMenu={handleClick}>
           <div
             id="edit"
             style={{ cursor: "context-menu", height: "100%", width: "100%" }}
@@ -300,6 +350,45 @@ const Edit: React.FC = (props) => {
               <KeyboardOutlinedIcon />
             </IconButton>
           </Tooltip> */}
+          {menuVisible ? (
+            <div
+              className="edit-menu"
+              style={{ top: mousestate.mouseY, left: mousestate.mouseX }}
+            >
+              <div
+                className="menu-item"
+                onClick={() => {
+                  handleLayer("up");
+                }}
+              >
+                上一图层
+              </div>
+              <div
+                className="menu-item"
+                onClick={() => {
+                  handleLayer("down");
+                }}
+              >
+                下一图层
+              </div>
+              <div
+                className="menu-item"
+                onClick={() => {
+                  handleLayer("top");
+                }}
+              >
+                置顶
+              </div>
+              <div
+                className="menu-item"
+                onClick={() => {
+                  handleLayer("bottom");
+                }}
+              >
+                置底
+              </div>
+            </div>
+          ) : null}
         </div>
 
         {/* <DrawShortcutPanel

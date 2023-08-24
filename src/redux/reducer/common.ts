@@ -6,7 +6,7 @@ export interface CommonType {
   headerVisible: boolean;
   apiObj: any;
   editState: boolean;
-  styleType: any;
+  styleObject: any;
   activeState: number;
   usedArray: any;
   dragState: boolean;
@@ -19,7 +19,21 @@ const defaultState: CommonType = {
   headerVisible: true,
   apiObj: null,
   editState: false,
-  styleType: {},
+  styleObject: {
+    fontSize: 12,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    fontColor: "#222",
+    strokeStyle: "#111111",
+    fillStyle: "",
+    textAlign: "center",
+    textBaseline: "middle",
+    lineWidth: 1,
+    dash: 0,
+    name: "curve",
+    fromArrow: "null",
+    toArrow: "triangleSolid",
+  },
   activeState: -1,
   usedArray: [],
   dragState: false,
